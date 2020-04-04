@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ProcessManager"
+    }
+  },
+  "defaultProject": "ProcessManager",
+  "cli": {
+    "analytics": false
+  }
 }
