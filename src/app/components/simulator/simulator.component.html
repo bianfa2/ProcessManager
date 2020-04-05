@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <h1>Process Manager</h1>
+        <span class="author">by Osmel Perez</span>
+        <span class="spacer"></span>
+        <a mat-flat-button class="nav" routerLink="/home">Volver</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-list class="subtitles">
+    <mat-list-item><h2>Simulador de algoritmo</h2></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Algoritmo de planificación de procesos Round Robin</mat-list-item>
+</mat-list>
+
+<table mat-table [dataSource]="myProcess" class="mat-elevation-z8 process">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="processName">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Nombre del proceso </th>
+      <td mat-cell *matCellDef="let element"> {{element.processName}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="timeArrival">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Tiempo de llegada </th>
+      <td mat-cell *matCellDef="let element"> {{element.timeArrival}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="burst">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Rafaga </th>
+      <td mat-cell *matCellDef="let element"> {{element.burst}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

@@ -12,9 +12,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { SimulatorComponent } from './components/simulator/simulator.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, SimulatorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,6 +29,8 @@ import { MatTableModule } from '@angular/material/table';
     MatInputModule,
     ReactiveFormsModule,
     MatTableModule,
+    MatListModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

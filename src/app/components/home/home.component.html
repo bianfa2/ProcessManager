@@ -2,13 +2,15 @@
     <mat-toolbar-row>
         <h1>Process Manager</h1>
         <span class="author">by Osmel Perez</span>
+        <span class="spacer"></span>
+        <a mat-flat-button class="nav" [routerLink]="simulate ? '/simulator' : '/home'" [disabled]="!simulate">Simular algoritmo</a>
     </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="filter-my-process">
     
     <div class="filter-my-process__select">
-        <h4 class="filter-my-process__select__label">Seleccionar por</h4>
+        <h4 class="filter-my-process__select__label">Obtener procesos por</h4>
         <mat-form-field appearance="fill">
             <mat-select [(value)]="selected">
             <mat-option value="0">Mayor uso de memoria</mat-option>

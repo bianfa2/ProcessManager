@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
       cpuTime: '00:02',
     },
   ];
+  simulate = this.myProcess.length > 0;
 
   constructor(public myProcessService: MyProcessService) {
     this.myProcessService.getByMemory();
