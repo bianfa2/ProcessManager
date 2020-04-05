@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MyProcessService } from '../../services/myProcess/my-process.service';
+import {
+  Process,
+  RoundRobinService,
+} from '../../services/roundRobin/round-robin.service';
 
 @Component({
   selector: 'app-simulator',
@@ -7,21 +12,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SimulatorComponent implements OnInit {
   displayedColumns: string[] = ['processName', 'timeArrival', 'burst'];
-  myProcess: Process[] = [
-    {
-      processName: 'Zula.exec',
-      timeArrival: '1',
-      burst: '10',
-    },
-  ];
+  myProcess: Process[] = [];
 
-  constructor() {}
+  constructor(
+    public roundRobinService: RoundRobinService,
+    public myProcessService: MyProcessService
+  ) {}
 
-  ngOnInit(): void {}
-}
-
-export interface Process {
-  processName: string;
-  timeArrival: string;
-  burst: string;
+  ngOnInit(): void {
+    this.roundRobinService
+      .setMyProcess(this.myProcessService.process)
+      .then(() => {
+        this.roundRobinService.process.length > 0
+          ? (this.myProcess = this.roundRobinService.process)
+          : (this.myProcess = [
+              {
+                processName: '',
+                timeArrival: '',
+                burst: '',
+              },
+            ]);
+      });
+  }
 }

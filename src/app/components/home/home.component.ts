@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import MyProcessService from '../../services/myProcess/my-process.service';
-import { MyProcess } from '../../services/myProcess/my-process.service';
+import {
+  MyProcess,
+  MyProcessService,
+} from '../../services/myProcess/my-process.service';
 
 @Component({
   selector: 'app-home',

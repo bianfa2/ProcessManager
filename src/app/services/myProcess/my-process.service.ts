@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export default class MyProcessService {
+export class MyProcessService {
   process: MyProcess[] = [];
 
   constructor() {}
@@ -15,28 +15,28 @@ export default class MyProcessService {
         processName: 'chrome.exe',
         userName: 'DESKTOP-NTR1UBE/Fabian',
         memoryUsage: '15 KB',
-        cpuTime: '"0:00:13',
+        cpuTime: '0:00:13',
       },
       {
         pid: '20',
         processName: 'word.exe',
         userName: 'DESKTOP-NTR1UBE/Fabian',
         memoryUsage: '17.524 KB',
-        cpuTime: '"0:00:11',
+        cpuTime: '0:00:11',
       },
       {
         pid: '3',
         processName: 'Zula.exe',
         userName: 'DESKTOP-NTR1UBE/Fabian',
         memoryUsage: '10 KB',
-        cpuTime: '"0:00:13',
+        cpuTime: '0:00:13',
       },
       {
         pid: '15',
         processName: 'discord.exe',
         userName: 'DESKTOP-NTR1UBE/Fabian',
         memoryUsage: '5 KB',
-        cpuTime: '"0:00:11',
+        cpuTime: '0:00:11',
       },
     ];
 
