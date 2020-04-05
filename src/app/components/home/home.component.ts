@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import MyProcessService from '../../services/myProcess/my-process.service';
+import { MyProcess } from '../../services/myProcess/my-process.service';
 
 @Component({
   selector: 'app-home',
@@ -18,32 +19,31 @@ export class HomeComponent implements OnInit {
     'memoryUsage',
     'cpuTime',
   ];
-  myProcess: Process[] = [
-    {
-      pid: '12',
-      processName: 'Zula.exec',
-      userName: 'bianfa',
-      memoryUsage: '12 KB',
-      cpuTime: '00:02',
-    },
-  ];
-  simulate = this.myProcess.length > 0;
+  myProcess: MyProcess[];
+  simulate = false;
 
-  constructor(public myProcessService: MyProcessService) {
-    this.myProcessService.getByMemory();
+  constructor(public myProcessService: MyProcessService) {}
+
+  ngOnInit(): void {
+    this.myProcessService.process.length > 0
+      ? ((this.myProcess = this.myProcessService.process),
+        (this.simulate = true))
+      : (this.myProcess = [
+          {
+            pid: '',
+            processName: '',
+            userName: '',
+            memoryUsage: '',
+            cpuTime: '',
+          },
+        ]);
   }
-
-  ngOnInit(): void {}
 
   getMyProcess() {
-    console.log(this.nProcess.value);
-  }
-}
+    this.selected == '0'
+      ? (this.myProcess = this.myProcessService.getByMemory())
+      : (this.myProcess = this.myProcessService.getByCPU());
 
-export interface Process {
-  pid: string;
-  processName: string;
-  userName: string;
-  memoryUsage: string;
-  cpuTime: string;
+    this.simulate = true;
+  }
 }
