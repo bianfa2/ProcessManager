@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MyProcessService } from '../../services/myProcess/my-process.service';
 import {
   Process,
@@ -12,7 +13,10 @@ import {
 })
 export class SimulatorComponent implements OnInit {
   displayedColumns: string[] = ['processName', 'timeArrival', 'burst'];
-  myProcess: Process[] = [];
+  myProcess: Process[];
+  readyProcess: Process[];
+  th = new FormControl('1');
+  quantum = new FormControl('2');
 
   constructor(
     public roundRobinService: RoundRobinService,
@@ -24,12 +28,17 @@ export class SimulatorComponent implements OnInit {
       .setMyProcess(this.myProcessService.process)
       .then(() => {
         this.roundRobinService.process.length > 0
-          ? (this.myProcess = this.roundRobinService.process)
+          ? ((this.myProcess = this.roundRobinService.process),
+            (this.readyProcess = this.roundRobinService.process))
           : (this.myProcess = [
               {
+                pid: '',
                 processName: '',
+                priority: 0,
                 timeArrival: '',
                 burst: '',
+                quantum: 0,
+                nExec: 0,
               },
             ]);
       });

@@ -13,7 +13,27 @@
     <mat-list-item>Algoritmo de planificación de procesos Round Robin</mat-list-item>
 </mat-list>
 
-<table mat-table [dataSource]="myProcess" class="mat-elevation-z8 process">
+<div class="inputs">
+  <mat-card class="inputs__card">
+    <div class="inputs__data">
+      <h4 class="inputs__data__label">Valor de la unidad de tiempo (ms): </h4>
+      <mat-form-field class="inputs__data__input">
+          <input matInput type="number" min="1" [formControl]="th">
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="inputs__card">
+    <div class="inputs__data">
+      <h4 class="inputs__data__label">Valor del Quantum: </h4>
+      <mat-form-field class="inputs__data__input">
+          <input matInput type="number" min="1" [formControl]="quantum">
+      </mat-form-field>
+    </div>
+  </mat-card>
+</div>
+
+<table mat-table [dataSource]="myProcess" class="mat-elevation-z5 process">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -39,3 +59,50 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<mat-card class="mat-elevation-z5 simulation-section">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <mat-icon aria-hidden="false" aria-label="Example home icon">description</mat-icon>
+    </div>
+    <mat-card-title>Simulación</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="l">
+    <p class="simulation-section__subtitle ready">Listo</p>
+    <div class="simulation-section__item">
+      <mat-card class="simulation-section__item__process" *ngFor="let process of readyProcess">
+        <mat-card-header>
+          <mat-card-title>{{ process.processName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          Pid: {{ process.pid }}<br>
+          Quantum: {{ process.quantum }} <br>
+          Ejecuciones: {{ process.nExec }} <br>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+    <p class="simulation-section__subtitle exec">Ejecución</p>
+    <div class="simulation-section__item">
+      
+    </div>
+    <mat-divider></mat-divider>
+    <p class="simulation-section__subtitle wait">Espera</p>
+    <div class="simulation-section__item">
+      
+    </div>
+    <mat-divider></mat-divider>
+    <p class="simulation-section__subtitle finish">Terminado</p>
+    <div class="simulation-section__item">
+      
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div class="control-buttons">
+  <button mat-fab class="control-buttons__button" color="primary">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">play_arrow</mat-icon>
+  </button>
+  <!-- <button mat-fab class="control-buttons__button" color="warn">Warn</button> -->
+</div>

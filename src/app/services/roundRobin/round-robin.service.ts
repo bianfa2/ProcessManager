@@ -15,9 +15,13 @@ export class RoundRobinService {
 
       myProcess.forEach((item, index) => {
         this.process.push({
+          pid: item.pid,
           processName: item.processName,
-          timeArrival: (index + 1).toString(),
+          priority: item.priority,
+          timeArrival: index.toString(),
           burst: item.processName.length.toString(),
+          quantum: 0,
+          nExec: 0,
         });
       });
       resolve();
@@ -26,7 +30,11 @@ export class RoundRobinService {
 }
 
 export interface Process {
+  pid: string;
   processName: string;
+  priority: number;
   timeArrival: string;
   burst: string;
+  quantum: number;
+  nExec: number;
 }

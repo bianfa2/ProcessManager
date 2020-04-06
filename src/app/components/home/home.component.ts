@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
           {
             pid: '',
             processName: '',
+            priority: 0,
             userName: '',
             memoryUsage: '',
             cpuTime: '',
@@ -43,7 +44,10 @@ export class HomeComponent implements OnInit {
 
   getMyProcess() {
     this.selected == '0'
-      ? (this.myProcess = this.myProcessService.getByMemory())
+      ? this.myProcessService.getByMemory().subscribe((data) => {
+          this.myProcess = data;
+          this.myProcessService.setProcess(data);
+        })
       : (this.myProcess = this.myProcessService.getByCPU());
 
     this.simulate = true;
