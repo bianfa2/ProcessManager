@@ -13,10 +13,14 @@ import {
 })
 export class SimulatorComponent implements OnInit {
   displayedColumns: string[] = ['processName', 'timeArrival', 'burst'];
-  myProcess: Process[];
-  readyProcess: Process[];
-  th = new FormControl('1');
-  quantum = new FormControl('2');
+  myProcess: Process[] = [];
+  readyProcess: Process[] = [];
+  execProcess: Process[] = [];
+  waitProcess: Process[] = [];
+  finishProcess: Process[] = [];
+  th = new FormControl(250);
+  quantum = new FormControl(2);
+  progressBar = 0;
 
   constructor(
     public roundRobinService: RoundRobinService,
@@ -42,5 +46,48 @@ export class SimulatorComponent implements OnInit {
               },
             ]);
       });
+  }
+
+  simulate() {
+    var task;
+
+    if (task.nExec === 0) {
+      task = this.readyProcess[0];
+      this.readyProcess.splice(0, 1);
+      this.execProcess.push(task);
+    } else {
+      task = this.waitProcess[0];
+      this.waitProcess.splice(0, 1);
+      this.execProcess.push(task);
+    }
+
+    const progressBarChange =
+      (task.priority === 0
+        ? this.quantum.value > task.burst
+          ? this.quantum.value
+          : task.burst
+        : parseInt(task.burst)) * this.th.value;
+
+    var progressTime = setInterval(() => {
+      this.progressBar += 1;
+    }, progressBarChange / 100);
+
+    setTimeout(() => {
+      clearInterval(progressTime);
+      this.progressBar = 0;
+      task.nExec += 1;
+      this.execProcess.splice(0, 1);
+
+      if (task.priority === 0) {
+        task.burst = (parseInt(task.burst) - this.quantum.value).toString();
+        if (parseInt(task.burst) > 0) {
+          this.waitProcess.push(task);
+        } else {
+          this.finishProcess.push(task);
+        }
+      } else {
+        this.readyProcess.push(task);
+      }
+    }, progressBarChange);
   }
 }

@@ -85,23 +85,51 @@
     <mat-divider></mat-divider>
     <p class="simulation-section__subtitle exec">Ejecución</p>
     <div class="simulation-section__item">
-      
+      <mat-card class="simulation-section__item__process" *ngFor="let process of execProcess">
+        <mat-card-header>
+          <mat-card-title>{{ process.processName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          Pid: {{ process.pid }}<br>
+          Quantum: {{ process.quantum }} <br>
+          Ejecuciones: {{ process.nExec }} <br>
+        </mat-card-content>
+      </mat-card>      
     </div>
+    <mat-progress-bar mode="determinate" [value]="progressBar"></mat-progress-bar>
     <mat-divider></mat-divider>
     <p class="simulation-section__subtitle wait">Espera</p>
     <div class="simulation-section__item">
-      
+      <mat-card class="simulation-section__item__process" *ngFor="let process of waitProcess">
+        <mat-card-header>
+          <mat-card-title>{{ process.processName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          Pid: {{ process.pid }}<br>
+          Quantum: {{ process.quantum }} <br>
+          Ejecuciones: {{ process.nExec }} <br>
+        </mat-card-content>
+      </mat-card>
     </div>
     <mat-divider></mat-divider>
     <p class="simulation-section__subtitle finish">Terminado</p>
     <div class="simulation-section__item">
-      
+      <mat-card class="simulation-section__item__process" *ngFor="let process of finishProcess">
+        <mat-card-header>
+          <mat-card-title>{{ process.processName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          Pid: {{ process.pid }}<br>
+          Quantum: {{ process.quantum }} <br>
+          Ejecuciones: {{ process.nExec }} <br>
+        </mat-card-content>
+      </mat-card>
     </div>
   </mat-card-content>
 </mat-card>
 
 <div class="control-buttons">
-  <button mat-fab class="control-buttons__button" color="primary">
+  <button mat-fab class="control-buttons__button" color="primary" (click)="simulate()">
     <mat-icon aria-hidden="false" aria-label="Example home icon">play_arrow</mat-icon>
   </button>
   <!-- <button mat-fab class="control-buttons__button" color="warn">Warn</button> -->
