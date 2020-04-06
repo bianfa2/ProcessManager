@@ -27,7 +27,7 @@
     <div class="inputs__data">
       <h4 class="inputs__data__label">Valor del Quantum: </h4>
       <mat-form-field class="inputs__data__input">
-          <input matInput type="number" min="1" [formControl]="quantum">
+          <input matInput type="number" min="1" disableControl="false" (change)="changeQuantum()" [formControl]="quantum">
       </mat-form-field>
     </div>
   </mat-card>
@@ -129,7 +129,7 @@
 </mat-card>
 
 <div class="control-buttons">
-  <button mat-fab class="control-buttons__button" color="primary" (click)="simulate()">
+  <button mat-fab class="control-buttons__button" color="primary" (click)="runSimulate()">
     <mat-icon aria-hidden="false" aria-label="Example home icon">play_arrow</mat-icon>
   </button>
   <!-- <button mat-fab class="control-buttons__button" color="warn">Warn</button> -->

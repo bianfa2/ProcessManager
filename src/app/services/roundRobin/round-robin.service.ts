@@ -9,7 +9,7 @@ export class RoundRobinService {
 
   constructor() {}
 
-  setMyProcess(myProcess: MyProcess[]) {
+  setMyProcess(myProcess: MyProcess[], quantum: number) {
     return new Promise((resolve, reject) => {
       this.process = [];
 
@@ -20,7 +20,12 @@ export class RoundRobinService {
           priority: item.priority,
           timeArrival: index.toString(),
           burst: item.processName.length.toString(),
-          quantum: 0,
+          quantum:
+            item.priority === 0
+              ? item.processName.length % quantum == 0
+                ? item.processName.length / quantum
+                : Math.trunc(item.processName.length / quantum) + 1
+              : 0,
           nExec: 0,
         });
       });
