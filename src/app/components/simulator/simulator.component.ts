@@ -51,7 +51,7 @@ export class SimulatorComponent implements OnInit {
   simulate() {
     var task;
 
-    if (task.nExec === 0) {
+    if (this.readyProcess[0].nExec === 0) {
       task = this.readyProcess[0];
       this.readyProcess.splice(0, 1);
       this.execProcess.push(task);
