@@ -21,6 +21,7 @@ export class SimulatorComponent implements OnInit {
   th = new FormControl(250);
   quantum = new FormControl(2);
   progressBar = 0;
+  control = 0;
 
   constructor(
     public roundRobinService: RoundRobinService,
@@ -52,13 +53,31 @@ export class SimulatorComponent implements OnInit {
       });
   }
 
+  setControl(value) {
+    if (this.control === 4 && value === 2) {
+      this.progressBar = 0;
+      this.execProcess = [];
+      this.waitProcess = [];
+      this.finishProcess = [];
+      this.readyProcess = this.myProcess.slice();
+      setTimeout(() => {
+        console.log(this.readyProcess);
+        this.runSimulate();
+      }, 800);
+    }
+    this.control = value;
+  }
+
   runSimulate() {
+    this.control = 1;
     this.th.disable();
     this.quantum.disable();
+
     if (this.execProcess.length === 0) {
       var task;
+      var flag = 1;
 
-      if (this.readyProcess[0].nExec === 0) {
+      if (this.readyProcess.length > 0) {
         task = {
           ...this.readyProcess[0],
         };
@@ -73,6 +92,7 @@ export class SimulatorComponent implements OnInit {
       } else {
         this.th.enable();
         this.quantum.enable();
+        this.control = 4;
         return;
       }
 
@@ -86,9 +106,29 @@ export class SimulatorComponent implements OnInit {
 
         var progressTime = setInterval(() => {
           this.progressBar += 1.2;
+          if (this.control != 1) {
+            if (this.control === 3) {
+              this.control = 4;
+            } else if (this.control === 2) {
+              this.progressBar = 0;
+              this.execProcess = [];
+              this.waitProcess = [];
+              this.finishProcess = [];
+              this.readyProcess = this.myProcess.slice();
+              setTimeout(() => {
+                this.runSimulate();
+              }, 500);
+            }
+            flag = 0;
+            clearTimeout(progressTime);
+            return;
+          }
         }, progressBarChange / 100);
 
         setTimeout(() => {
+          if (flag !== 1) {
+            return;
+          }
           clearInterval(progressTime);
           this.progressBar = 0;
           task.nExec += 1;
@@ -103,8 +143,18 @@ export class SimulatorComponent implements OnInit {
               this.finishProcess.push(task);
             }
           } else {
-            this.readyProcess.push(task);
+            this.finishProcess.push(task);
           }
+
+          /* if (this.control === 3) {
+            this.control = 0;
+            return;
+          } else if (this.control === 2) {
+            this.execProcess = [];
+            this.waitProcess = [];
+            this.finishProcess = [];
+            this.readyProcess = this.myProcess.slice();
+          } */
 
           setTimeout(() => {
             this.runSimulate();

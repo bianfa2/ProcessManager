@@ -129,8 +129,13 @@
 </mat-card>
 
 <div class="control-buttons">
-  <button mat-fab class="control-buttons__button" color="primary" (click)="runSimulate()">
+  <button mat-fab class="control-buttons__button" color="primary" (click)="runSimulate()" *ngIf="control == 0">
     <mat-icon aria-hidden="false" aria-label="Example home icon">play_arrow</mat-icon>
   </button>
-  <!-- <button mat-fab class="control-buttons__button" color="warn">Warn</button> -->
+  <button mat-fab class="control-buttons__button" color="primary" (click)="setControl(2)" *ngIf="control != 0">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">replay</mat-icon>
+  </button>
+  <button mat-fab class="control-buttons__button" color="warn" (click)="setControl(3)" *ngIf="control != 0 && control < 4">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">pause</mat-icon>
+  </button>
 </div>
