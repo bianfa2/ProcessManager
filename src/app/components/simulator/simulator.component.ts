@@ -36,6 +36,24 @@ export class SimulatorComponent implements OnInit {
       finishTime: 0,
     },
   ];
+  noExpulsiveProcessTitle: string[] = [
+    'processName',
+    'timeArrival',
+    'burst',
+    'priority',
+    'turnaround',
+    'finishTime',
+  ];
+  noExpulsiveProcess: Process[] = [
+    {
+      processName: '',
+      timeArrival: '',
+      burst: 0,
+      priority: 0,
+      turnaround: 0,
+      finishTime: 0,
+    },
+  ];
   th = new FormControl(250);
   quantum = new FormControl(2);
   progressBar = 0;
@@ -79,14 +97,27 @@ export class SimulatorComponent implements OnInit {
       this.waitProcess = [];
       this.finishProcess = [];
       this.readyProcess = this.myProcess.slice();
-      this.generateReports();
+      this.expulsiveProcess = this.roundRobinService.generateReportsExpulsiveProcess(
+        this.myProcess,
+        this.quantum.value
+      );
+      this.noExpulsiveProcess = this.roundRobinService.generateReportsNoExpulsiveProcess(
+        this.myProcess
+      );
       setTimeout(() => {
         this.runSimulate();
       }, 800);
     }
 
     if (!this.firstRun) {
-      this.generateReports();
+      this.firstRun = false;
+      this.expulsiveProcess = this.roundRobinService.generateReportsExpulsiveProcess(
+        this.myProcess,
+        this.quantum.value
+      );
+      this.noExpulsiveProcess = this.roundRobinService.generateReportsNoExpulsiveProcess(
+        this.myProcess
+      );
     }
 
     this.control = value;
@@ -195,31 +226,5 @@ export class SimulatorComponent implements OnInit {
 
   changeQuantum() {
     this.createSimulate();
-  }
-
-  generateReports() {
-    this.expulsiveProcess = [];
-
-    this.myProcess.forEach((process) => {
-      if (process.priority === 0) {
-        this.expulsiveProcess.push({
-          processName: process.processName,
-          timeArrival: process.timeArrival,
-          burst: process.burst,
-          priority: process.priority,
-          turnaround:
-            (process.burst % this.quantum.value === 0
-              ? process.burst / this.quantum.value
-              : Math.trunc(process.burst / this.quantum.value) + 1) *
-              this.quantum.value -
-            parseInt(process.timeArrival),
-          finishTime:
-            (process.burst % this.quantum.value === 0
-              ? process.burst / this.quantum.value
-              : Math.trunc(process.burst / this.quantum.value) + 1) *
-            this.quantum.value,
-        });
-      }
-    });
   }
 }

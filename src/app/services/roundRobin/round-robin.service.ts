@@ -27,6 +27,48 @@ export class RoundRobinService {
       resolve();
     });
   }
+
+  generateReportsExpulsiveProcess(process: Process[], quantum: number) {
+    var expulsiveProcess: Process[] = [];
+    process.forEach((process) => {
+      if (process.priority === 0) {
+        expulsiveProcess.push({
+          processName: process.processName,
+          timeArrival: process.timeArrival,
+          burst: process.burst,
+          priority: process.priority,
+          turnaround:
+            this.getFinishTime(process.burst, quantum) -
+            parseInt(process.timeArrival),
+          finishTime: this.getFinishTime(process.burst, quantum),
+        });
+      }
+    });
+    return expulsiveProcess;
+  }
+
+  generateReportsNoExpulsiveProcess(process: Process[]) {
+    var noExpulsiveProcess: Process[] = [];
+    process.forEach((process) => {
+      if (process.priority === 1) {
+        noExpulsiveProcess.push({
+          processName: process.processName,
+          timeArrival: process.timeArrival,
+          burst: process.burst,
+          priority: process.priority,
+          turnaround: process.burst - parseInt(process.timeArrival),
+          finishTime: process.burst,
+        });
+      }
+    });
+    return noExpulsiveProcess;
+  }
+
+  getFinishTime(burst, quantum): number {
+    return burst % quantum === 0
+      ? (burst / quantum) * quantum
+      : (Math.trunc(burst / quantum) + 1) * (burst / quantum);
+  }
 }
 
 export interface Process {

@@ -88,7 +88,7 @@ export class MyProcessService {
       },
       {
         pid: '4352',
-        processName: 'chrome.exe',
+        processName: 'chromes.exe',
         userName: 'DESKTOP-A54H9IH\\jgabr',
         memoryUsage: '91.828 KB',
         cpuTime: '0:16:44',
