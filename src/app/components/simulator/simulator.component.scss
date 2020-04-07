@@ -52,7 +52,7 @@
 
 .simulation-section {
   width: 86%;
-  margin: 80px auto 160px;
+  margin: 80px auto 100px;
   background: #ffffff;
 
   &__subtitle {
@@ -97,6 +97,10 @@
       }
     }
   }
+}
+
+.reports {
+  margin-bottom: 160px;
 }
 
 .control-buttons {

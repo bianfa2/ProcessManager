@@ -19,13 +19,8 @@ export class RoundRobinService {
           processName: item.processName,
           priority: item.priority,
           timeArrival: index.toString(),
-          burst: item.processName.length.toString(),
-          quantum:
-            item.priority === 0
-              ? item.processName.length % quantum == 0
-                ? item.processName.length / quantum
-                : Math.trunc(item.processName.length / quantum) + 1
-              : 0,
+          burst: parseInt(item.processName.length.toString()),
+          quantum: 0,
           nExec: 0,
         });
       });
@@ -35,11 +30,13 @@ export class RoundRobinService {
 }
 
 export interface Process {
-  pid: string;
+  pid?: string;
   processName: string;
   priority: number;
   timeArrival: string;
-  burst: string;
-  quantum: number;
-  nExec: number;
+  burst: number;
+  quantum?: number;
+  nExec?: number;
+  turnaround?: number;
+  finishTime?: number;
 }

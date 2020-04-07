@@ -56,8 +56,8 @@
       <td mat-cell *matCellDef="let element"> {{element.burst}} </td>
     </ng-container>
   
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="myProcessTitle"></tr>
+    <tr mat-row *matRowDef="let row; columns: myProcessTitle;"></tr>
 </table>
 
 <mat-card class="mat-elevation-z5 simulation-section">
@@ -127,6 +127,57 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<div class="reports">
+  <mat-list class="subtitles">
+    <mat-list-item><h2>Reportes</h2></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Reportes de los procesos expulsivos y no expulsivos respectivamente</mat-list-item>
+  </mat-list>
+
+  <table mat-table [dataSource]="expulsiveProcess" class="mat-elevation-z5 process">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="processName">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Nombre del proceso </th>
+      <td mat-cell *matCellDef="let element"> {{element.processName}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="timeArrival">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Tiempo de llegada </th>
+      <td mat-cell *matCellDef="let element"> {{element.timeArrival}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="burst">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Rafaga </th>
+      <td mat-cell *matCellDef="let element"> {{element.burst}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="priority">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Prioridad asignada </th>
+      <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="turnaround">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Turnaround </th>
+      <td mat-cell *matCellDef="let element"> {{element.turnaround}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="finishTime">
+      <th mat-header-cell *matHeaderCellDef class="process__title"> Tiempo de finalización </th>
+      <td mat-cell *matCellDef="let element"> {{element.finishTime}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="expulsiveProcessTitle"></tr>
+    <tr mat-row *matRowDef="let row; columns: expulsiveProcessTitle;"></tr>
+  </table>
+
+</div>
 
 <div class="control-buttons">
   <button mat-fab class="control-buttons__button" color="primary" (click)="runSimulate()" *ngIf="control == 0">

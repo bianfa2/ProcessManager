@@ -12,16 +12,35 @@ import {
   styleUrls: ['./simulator.component.scss'],
 })
 export class SimulatorComponent implements OnInit {
-  displayedColumns: string[] = ['processName', 'timeArrival', 'burst'];
+  myProcessTitle: string[] = ['processName', 'timeArrival', 'burst'];
   myProcess: Process[] = [];
   readyProcess: Process[] = [];
   execProcess: Process[] = [];
   waitProcess: Process[] = [];
   finishProcess: Process[] = [];
+  expulsiveProcessTitle: string[] = [
+    'processName',
+    'timeArrival',
+    'burst',
+    'priority',
+    'turnaround',
+    'finishTime',
+  ];
+  expulsiveProcess: Process[] = [
+    {
+      processName: '',
+      timeArrival: '',
+      burst: 0,
+      priority: 0,
+      turnaround: 0,
+      finishTime: 0,
+    },
+  ];
   th = new FormControl(250);
   quantum = new FormControl(2);
   progressBar = 0;
   control = 0;
+  firstRun = false;
 
   constructor(
     public roundRobinService: RoundRobinService,
@@ -45,7 +64,7 @@ export class SimulatorComponent implements OnInit {
                 processName: '',
                 priority: 0,
                 timeArrival: '',
-                burst: '',
+                burst: 0,
                 quantum: 0,
                 nExec: 0,
               },
@@ -60,16 +79,21 @@ export class SimulatorComponent implements OnInit {
       this.waitProcess = [];
       this.finishProcess = [];
       this.readyProcess = this.myProcess.slice();
+      this.generateReports();
       setTimeout(() => {
-        console.log(this.readyProcess);
         this.runSimulate();
       }, 800);
     }
+
+    if (!this.firstRun) {
+      this.generateReports();
+    }
+
     this.control = value;
   }
 
   runSimulate() {
-    this.control = 1;
+    this.setControl(1);
     this.th.disable();
     this.quantum.disable();
 
@@ -102,12 +126,14 @@ export class SimulatorComponent implements OnInit {
             ? this.quantum.value > task.burst
               ? this.quantum.value
               : task.burst
-            : parseInt(task.burst)) * this.th.value;
+            : task.burst) * this.th.value;
 
         var progressTime = setInterval(() => {
           this.progressBar += 1.2;
           if (this.control != 1) {
             if (this.control === 3) {
+              this.th.enable();
+              this.quantum.enable();
               this.control = 4;
             } else if (this.control === 2) {
               this.progressBar = 0;
@@ -135,9 +161,12 @@ export class SimulatorComponent implements OnInit {
           this.execProcess.splice(0, 1);
 
           if (task.priority === 0) {
-            task.quantum -= 1;
-            task.burst = (parseInt(task.burst) - this.quantum.value).toString();
-            if (parseInt(task.burst) > 0) {
+            task.quantum +=
+              task.burst > this.quantum.value
+                ? 1
+                : task.burst / this.quantum.value;
+            task.burst = (task.burst - this.quantum.value).toString();
+            if (task.burst > 0) {
               this.waitProcess.push(task);
             } else {
               this.finishProcess.push(task);
@@ -166,5 +195,31 @@ export class SimulatorComponent implements OnInit {
 
   changeQuantum() {
     this.createSimulate();
+  }
+
+  generateReports() {
+    this.expulsiveProcess = [];
+
+    this.myProcess.forEach((process) => {
+      if (process.priority === 0) {
+        this.expulsiveProcess.push({
+          processName: process.processName,
+          timeArrival: process.timeArrival,
+          burst: process.burst,
+          priority: process.priority,
+          turnaround:
+            (process.burst % this.quantum.value === 0
+              ? process.burst / this.quantum.value
+              : Math.trunc(process.burst / this.quantum.value) + 1) *
+              this.quantum.value -
+            parseInt(process.timeArrival),
+          finishTime:
+            (process.burst % this.quantum.value === 0
+              ? process.burst / this.quantum.value
+              : Math.trunc(process.burst / this.quantum.value) + 1) *
+            this.quantum.value,
+        });
+      }
+    });
   }
 }
