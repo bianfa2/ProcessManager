@@ -231,11 +231,17 @@ export class SimulatorComponent implements OnInit {
     this.createSimulate();
   }
 
-  showGraph() {
+  /* showGraph() {
     this.graph = new Chart('idGraph', {
       type: 'line',
       data: {
-        labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+        labels: () => {
+          var labels = [''];
+          this.myProcess.forEach((process) => {
+            labels.push(process.processName);
+          });
+          return labels;
+        },
         datasets: [
           {
             data: [
@@ -258,16 +264,13 @@ export class SimulatorComponent implements OnInit {
       options: {
         title: {
           display: true,
-          text: 'World population per region (in millions)',
+          text: 'Procesos vs Turnaround',
           fontSize: 30,
         },
         legend: {
-          display: true,
-          labels: {
-            fontColor: 'black',
-          },
+          display: false,
         },
       },
     });
-  }
+  } */
 }
