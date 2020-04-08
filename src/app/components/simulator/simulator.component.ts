@@ -5,6 +5,7 @@ import {
   Process,
   RoundRobinService,
 } from '../../services/roundRobin/round-robin.service';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-simulator',
@@ -59,6 +60,7 @@ export class SimulatorComponent implements OnInit {
   progressBar = 0;
   control = 0;
   firstRun = false;
+  graph = [];
 
   constructor(
     public roundRobinService: RoundRobinService,
@@ -118,6 +120,7 @@ export class SimulatorComponent implements OnInit {
       this.noExpulsiveProcess = this.roundRobinService.generateReportsNoExpulsiveProcess(
         this.myProcess
       );
+      this.showGraph();
     }
 
     this.control = value;
@@ -226,5 +229,45 @@ export class SimulatorComponent implements OnInit {
 
   changeQuantum() {
     this.createSimulate();
+  }
+
+  showGraph() {
+    this.graph = new Chart('idGraph', {
+      type: 'line',
+      data: {
+        labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+        datasets: [
+          {
+            data: [
+              {
+                x: 1600,
+                y: 1000,
+              },
+              {
+                x: 1900,
+                y: 980,
+              },
+            ],
+            label: '',
+            fontColor: '#fff',
+            borderColor: '#8e5ea2',
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'World population per region (in millions)',
+          fontSize: 30,
+        },
+        legend: {
+          display: true,
+          labels: {
+            fontColor: 'black',
+          },
+        },
+      },
+    });
   }
 }

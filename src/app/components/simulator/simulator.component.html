@@ -128,7 +128,7 @@
   </mat-card-content>
 </mat-card>
 
-<div class="reports">
+<div class="reports-section">
   <mat-list class="subtitles">
     <mat-list-item><h2>Reportes</h2></mat-list-item>
     <mat-divider></mat-divider>
@@ -218,6 +218,10 @@
     <tr mat-header-row *matHeaderRowDef="noExpulsiveProcessTitle"></tr>
     <tr mat-row *matRowDef="let row; columns: noExpulsiveProcessTitle;"></tr>
   </table>
+
+  <div class="graph">
+    <canvas id="idGraph">{{ graph }}</canvas>
+  </div>
 
 </div>
 
