@@ -62,6 +62,33 @@ export class SimulatorComponent implements OnInit {
   firstRun = false;
   graph = [];
 
+  // Graph
+  lineChartOptions = {
+    title: {
+      display: true,
+      text: 'Procesos vs Turnaround',
+      fontSize: 30,
+    },
+    responsive: true,
+  };
+  lineChartLegend = false;
+  lineChartPlugins = [];
+  lineChartType = 'line';
+  lineChartColors = [
+    {
+      borderColor: '#8e5ea2',
+    },
+  ];
+
+  lineChartLabels = [];
+
+  lineChartData = [
+    {
+      data: [],
+      label: 'Turnaround',
+    },
+  ];
+
   constructor(
     public roundRobinService: RoundRobinService,
     public myProcessService: MyProcessService
@@ -107,12 +134,13 @@ export class SimulatorComponent implements OnInit {
         this.myProcess
       );
       setTimeout(() => {
+        this.showGraph();
         this.runSimulate();
       }, 800);
     }
 
     if (!this.firstRun) {
-      this.firstRun = false;
+      this.firstRun = true;
       this.expulsiveProcess = this.roundRobinService.generateReportsExpulsiveProcess(
         this.myProcess,
         this.quantum.value
@@ -231,46 +259,20 @@ export class SimulatorComponent implements OnInit {
     this.createSimulate();
   }
 
-  /* showGraph() {
-    this.graph = new Chart('idGraph', {
-      type: 'line',
-      data: {
-        labels: () => {
-          var labels = [''];
-          this.myProcess.forEach((process) => {
-            labels.push(process.processName);
-          });
-          return labels;
-        },
-        datasets: [
-          {
-            data: [
-              {
-                x: 1600,
-                y: 1000,
-              },
-              {
-                x: 1900,
-                y: 980,
-              },
-            ],
-            label: '',
-            fontColor: '#fff',
-            borderColor: '#8e5ea2',
-            fill: true,
-          },
-        ],
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Procesos vs Turnaround',
-          fontSize: 30,
-        },
-        legend: {
-          display: false,
-        },
-      },
+  showGraph() {
+    this.lineChartLabels = [];
+    this.lineChartData[0]['data'] = [];
+
+    this.myProcess.forEach((process) => {
+      this.lineChartLabels.push(process.processName);
     });
-  } */
+
+    this.expulsiveProcess.forEach((process) => {
+      this.lineChartData[0]['data'][process.timeArrival] = process.turnaround;
+    });
+
+    this.noExpulsiveProcess.forEach((process) => {
+      this.lineChartData[0]['data'][process.timeArrival] = process.turnaround;
+    });
+  }
 }

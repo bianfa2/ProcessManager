@@ -128,7 +128,7 @@
   </mat-card-content>
 </mat-card>
 
-<div class="reports-section">
+<div class="reports-section" *ngIf="firstRun">
   <mat-list class="subtitles">
     <mat-list-item><h2>Reportes</h2></mat-list-item>
     <mat-divider></mat-divider>
@@ -220,7 +220,16 @@
   </table>
 
   <div class="graph">
-    <canvas id="idGraph">{{ graph }}</canvas>
+    <!-- <canvas id="idGraph">{{ graph }}</canvas> -->
+    <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType" 
+        [plugins]="lineChartPlugins">
+    </canvas>
   </div>
 
 </div>

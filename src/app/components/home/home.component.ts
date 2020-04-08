@@ -13,7 +13,7 @@ import {
 export class HomeComponent implements OnInit {
   selected: string = '0';
   system: string = '0';
-  nProcess = new FormControl('1');
+  nProcess = new FormControl(1);
   displayedColumns: string[] = [
     'pid',
     'processName',
@@ -43,12 +43,19 @@ export class HomeComponent implements OnInit {
   }
 
   getMyProcess() {
-    this.selected == '0'
-      ? this.myProcessService.getByMemory().subscribe((data) => {
-          this.myProcess = data;
-          this.myProcessService.setProcess(data);
-        })
-      : (this.myProcess = this.myProcessService.getByCPU());
+    this.selected === '0'
+      ? this.myProcessService
+          .getByMemory(this.nProcess.value)
+          .subscribe((data) => {
+            this.myProcess = data;
+            this.myProcessService.setProcess(data);
+          })
+      : this.myProcessService
+          .getByCPU(this.nProcess.value)
+          .subscribe((data) => {
+            this.myProcess = data;
+            this.myProcessService.setProcess(data);
+          });
 
     this.simulate = true;
   }
