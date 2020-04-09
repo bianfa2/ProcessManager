@@ -15,13 +15,13 @@ export class MyProcessService {
 
   getByMemory(nProcess: number) {
     return this.httpClient.get<MyProcess[]>(
-      `http://192.168.0.33:3000/api/data/processNumber=${nProcess}/flag=1`
+      `http://localhost:3000/api/data/processNumber=${nProcess}/flag=1`
     );
   }
 
   getByCPU(nProcess: number) {
     return this.httpClient.get<MyProcess[]>(
-      `http://192.168.0.33:3000/api/data/processNumber=${nProcess}/flag=0`
+      `http://localhost:3000/api/data/processNumber=${nProcess}/flag=0`
     );
   }
 }

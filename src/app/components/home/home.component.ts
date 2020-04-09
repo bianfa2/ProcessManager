@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
   }
 
   getMyProcess() {
+    this.myProcess = [];
+
     this.selected === '0'
       ? this.myProcessService
           .getByMemory(this.nProcess.value)
