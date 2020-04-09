@@ -1,3 +1,22 @@
+.loading {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #191f26;
+  z-index: 2;
+
+  &__image {
+    position: relative;
+    margin: 20vh auto 0;
+    width: 30vw;
+    height: 30vw;
+    background-image: url("../../../assets/loading.gif");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
 .author {
   font-size: 14px;
   margin-left: 30px;

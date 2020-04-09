@@ -1,4 +1,9 @@
-<mat-toolbar color="primary">
+<div class="loading" *ngIf="loading">
+  <div class="loading__image"></div>
+</div>
+
+<div *ngIf="!loading">
+  <mat-toolbar color="primary">
     <mat-toolbar-row>
         <h1>Process Manager</h1>
         <span class="author">by Osmel Perez</span>
@@ -77,3 +82,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+</div>
